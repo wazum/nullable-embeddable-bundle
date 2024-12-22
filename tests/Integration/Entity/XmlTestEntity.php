@@ -12,19 +12,19 @@ class XmlTestEntity
 {
     private ?int $id = null;
     #[NullableEmbedded]
-    private ?EmailAddress $emailAddress = null;
+    private $emailAddress;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmailAddress(): ?EmailAddress
+    public function getEmailAddress()
     {
         return $this->emailAddress;
     }
 
-    public function setEmailAddress(?EmailAddress $emailAddress): void
+    public function setEmailAddress($emailAddress): void
     {
         $this->emailAddress = $emailAddress;
     }

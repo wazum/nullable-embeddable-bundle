@@ -6,7 +6,6 @@ namespace Wazum\NullableEmbeddableBundle\Tests\Integration\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Wazum\NullableEmbeddableBundle\Attribute\ContainsNullableEmbeddable;
-use Wazum\NullableEmbeddableBundle\Attribute\NullableEmbedded;
 
 #[ORM\Entity]
 #[ContainsNullableEmbeddable]
@@ -18,7 +17,6 @@ class AttributesTestEntity
     private ?int $id = null;
 
     #[ORM\Embedded(class: EmailAddress::class)]
-    #[NullableEmbedded]
     private ?EmailAddress $emailAddress = null;
 
     public function getId(): ?int

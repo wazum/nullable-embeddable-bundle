@@ -47,15 +47,14 @@ class NullableEmbeddableSubscriberTest extends TestCase
 
         $entity = new #[ContainsNullableEmbeddable] class {
             #[ORM\Embedded(class: 'SomeClass')]
-            #[NullableEmbedded]
-            private $embeddable;
+            private ?object $embeddable;
 
-            public function getEmbeddable()
+            public function getEmbeddable(): ?object
             {
                 return $this->embeddable;
             }
 
-            public function setEmbeddable($embeddable): void
+            public function setEmbeddable(?object $embeddable): void
             {
                 $this->embeddable = $embeddable;
             }
@@ -76,6 +75,48 @@ class NullableEmbeddableSubscriberTest extends TestCase
 
         $args = new PostLoadEventArgs($entity, $this->entityManager);
 
+        $this->subscriber->postLoad($args);
+
+        $this->assertNull($entity->getEmbeddable());
+    }
+
+    public function testPostLoadWithNoTypeHint(): void
+    {
+        $embeddable = new class {
+            private ?string $value = null;
+        };
+
+        $entity = new #[ContainsNullableEmbeddable] class {
+            #[ORM\Embedded(class: 'SomeClass')]
+            #[NullableEmbedded]
+            private $embeddable;
+
+            public function getEmbeddable()
+            {
+                return $this->embeddable;
+            }
+
+            public function setEmbeddable($embeddable): void
+            {
+                $this->embeddable = $embeddable;
+            }
+        };
+
+        $this->metadata->embeddedClasses = [
+            'embeddable' => [
+                'class' => $embeddable::class,
+                'columnPrefix' => null,
+            ],
+        ];
+
+        $this->entityManager->expects($this->once())
+            ->method('getClassMetadata')
+            ->with($entity::class)
+            ->willReturn($this->metadata);
+
+        $entity->setEmbeddable($embeddable);
+
+        $args = new PostLoadEventArgs($entity, $this->entityManager);
         $this->subscriber->postLoad($args);
 
         $this->assertNull($entity->getEmbeddable());

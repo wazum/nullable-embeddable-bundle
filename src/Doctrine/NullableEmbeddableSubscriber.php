@@ -51,7 +51,8 @@ final class NullableEmbeddableSubscriber implements EventSubscriber
         /** @var string $fieldName */
         foreach (array_keys($embeddedClasses) as $fieldName) {
             $property = new \ReflectionProperty($entity, $fieldName);
-            if (!$property->getAttributes(NullableEmbedded::class)) {
+
+            if (!$this->isNullable($property)) {
                 continue;
             }
 
@@ -60,10 +61,22 @@ final class NullableEmbeddableSubscriber implements EventSubscriber
             if (null === $value) {
                 continue;
             }
+
             if ($this->allPropertiesAreNull($value)) {
                 $property->setValue($entity, null);
             }
         }
+    }
+
+    private function isNullable(\ReflectionProperty $property): bool
+    {
+        $type = $property->getType();
+
+        if (null === $type) {
+            return !empty($property->getAttributes(NullableEmbedded::class));
+        }
+
+        return $type->allowsNull();
     }
 
     private function allPropertiesAreNull(object $object): bool
