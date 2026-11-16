@@ -1,5 +1,8 @@
 # Nullable Embeddable Bundle
 
+> [!WARNING]
+> This package is abandoned. Use [hyphaeworks/nullable-embeddable-bundle](https://github.com/hyphaeworks/nullable-embeddable-bundle) instead.
+
 [![CI](https://github.com/wazum/nullable-embeddable-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/wazum/nullable-embeddable-bundle/actions/workflows/ci.yml)
 
 A [Symfony bundle](https://symfony.com/doc/current/bundles.html) that provides support for nullable [_Doctrine Embeddables_](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/tutorials/embeddables.html). It allows embeddable objects to become `null` when all their properties are `null`, providing a cleaner way to handle optional embedded values.

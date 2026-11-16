@@ -3,6 +3,7 @@
     "description": "Symfony bundle for handling nullable Doctrine embeddables",
     "type": "symfony-bundle",
     "license": "MIT",
+    "abandoned": "hyphaeworks/nullable-embeddable-bundle",
     "require": {
         "php": ">=8.1",
         "symfony/framework-bundle": "^6.4 || ^7.0",
